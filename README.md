@@ -5,5 +5,5 @@ A library based on Pytorch which includes Dropout family regularization schemes.
 2. Shakeout
 3. Bridgeout
 4. Spectral Dropout
-5. Adaptive Dropout
+5. Adaptive Dropout (Working on it ...)
 
