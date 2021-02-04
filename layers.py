@@ -7,18 +7,23 @@ import numpy as np
 
 class SpectralDropout(nn.Module):
 
-    def __init__(self, tau=0.1, p=0.2):
+    def __init__(self, tau=0.1, p=0.2, device='cuda'):
         super().__init__()
         self.tau = tau
         self.p = p
+        self.device = device
 
     def greater_mask(self, x):
         r = torch.gt(x, self.tau)
+        if self.device == 'cuda':
+            return r.cuda()
         return r
 
     def bernoulli_mask(self, shape):
         r_matrix = torch.rand(shape)
         r = torch.gt(r_matrix, self.p)
+        if self.device == 'cuda':
+            return r.cuda()
         return r
 
     def forward(self, x:torch.Tensor)->torch.Tensor:
@@ -37,15 +42,18 @@ class SpectralDropout(nn.Module):
 
 class Bridgeout(nn.Module):
 
-    def __init__(self,layer:nn.Module, p=0.7,q=0.7):
+    def __init__(self,layer:nn.Module, p=0.7,q=0.7, device='cuda'):
         super().__init__()
         self.layer = layer
         self.p = p
         self.q = q
+        self.device = device
 
     def bernoulli_mask(self, shape):
         r_matrix = torch.rand(shape)
         r = torch.gt(r_matrix, self.p)
+        if self.device == 'cuda':
+            return r.cuda()
         return r
 
     def forward(self, x:torch.Tensor) -> torch.Tensor:
@@ -59,17 +67,20 @@ class Bridgeout(nn.Module):
 
 class Shakeout(nn.Module):
 
-    def __init__(self, layer:nn.Module, tau=0.1, c=0.1):
+    def __init__(self, layer:nn.Module, tau=0.1, c=0.1, device='cuda'):
         super().__init__()
         self.layer = layer
         self.tau = tau
         self.itau = 1 / (1 - tau)
         self.c = c
         self.softsign = nn.Softsign()
+        self.device = device
 
     def bernoulli_mask(self, shape):
         r_matrix = torch.rand(shape)
         r = torch.gt(r_matrix, self.tau)
+        if self.device == 'cuda':
+            return r.cuda()
         return r
 
     def forward(self, x:torch.Tensor) -> torch.Tensor:
@@ -84,14 +95,17 @@ class Shakeout(nn.Module):
 
 class DropConnect(nn.Module):
 
-    def __init__(self, layer:nn.Module, p=0.2):
+    def __init__(self, layer:nn.Module, p=0.2, device='cuda'):
         super().__init__()
         self.layer = layer
         self.p = p
+        self.device = device
 
     def bernoulli_mask(self, shape):
         r_matrix = torch.rand(shape)
         r = torch.gt(r_matrix, self.tau)
+        if self.device == 'cuda':
+            return r.cuda()
         return r
 
     def forward(self, x:torch.Tensor) -> torch.Tensor:
