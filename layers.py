@@ -67,7 +67,7 @@ class Bridgeout(nn.Module):
 
 class Shakeout(nn.Module):
 
-    def __init__(self, layer:nn.Module, tau=0.5, c=0.5, device='cuda'):
+    def __init__(self, layer:nn.Module, tau=0.5, c=0.1, device='cuda'):
         super().__init__()
         self.layer = layer
         self.tau = tau
