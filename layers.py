@@ -103,7 +103,7 @@ class DropConnect(nn.Module):
 
     def bernoulli_mask(self, shape):
         r_matrix = torch.rand(shape)
-        r = torch.gt(r_matrix, self.tau)
+        r = torch.gt(r_matrix, self.p)
         if self.device == 'cuda':
             return r.cuda()
         return r
