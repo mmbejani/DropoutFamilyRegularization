@@ -95,7 +95,7 @@ class Shakeout(nn.Module):
 
 class DropConnect(nn.Module):
 
-    def __init__(self, layer:nn.Module, p=0.2, device='cuda'):
+    def __init__(self, layer:nn.Module, p=0.05, device='cuda'):
         super().__init__()
         self.layer = layer
         self.p = p
